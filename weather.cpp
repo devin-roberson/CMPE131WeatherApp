@@ -15,7 +15,7 @@ weatherStation::weatherStation() {
 	gatheredData = false;
 }
 
-void weatherStation::getData() {
+bool weatherStation::getData() {
 	std::string l, fodder, tempV;
 	std::ifstream iFile("weather.data");
 	if (iFile.is_open()) {
@@ -44,12 +44,15 @@ void weatherStation::getData() {
 			std::cout << "Data gathered." << std::endl;
 		}
 	}
-	else
+	else {
 		std::cout << "Data failed to gather." << std::endl;
+		return false;
+	}
 	gatheredData = true;
+	return true;
 }
 
-void weatherStation::storeData() {
+bool weatherStation::storeData() {
 	if (gatheredData) {
 		std::ofstream oFile("save.data");
 		if (oFile.is_open()) {
@@ -61,18 +64,30 @@ void weatherStation::storeData() {
 			oFile.close();
 			std::cout << "Data saved." << std::endl;
 		}
-		else
+		else {
 			std::cout << "ERROR" << std::endl;
+			return false;
+		}
 	}
-	else
+	else {
 		std::cout << "No data to save!" << std::endl;
+		return false;
+	}
+	return true;
 }
 
-void weatherStation::transmitData() {
-	std::cout << "not implemented" << std::endl;
+bool weatherStation::transmitData() {
+	bool doTransmit = false;
+	if (gatheredData)
+		doTransmit = true;
+	if(doTransmit)
+		std::cout << "data transmitted" << std::endl;
+	else
+		std::cout << "transmission failed" << std::endl;
+	return doTransmit;
 }
 
-void weatherStation::analyzeData() {
+bool weatherStation::analyzeData() {
 	if (gatheredData) {
 		std::cout << "The current temperature is " << temp << " degress fahrenheit." << std::endl;
 		if (rainChance) {
@@ -90,6 +105,42 @@ void weatherStation::analyzeData() {
 			std::cout << "There will be hail." << std::endl;
 		}
 	}
-	else
+	else {
 		std::cout << "No data to analyze!" << std::endl;
+		return false;
+	}
+	return true;
+}
+
+void weatherStation::UI() {
+	bool run = true;
+	int choice;
+	weatherStation x;
+	while (run)
+	{
+		std::cout << "Welcomme to the weather station program!\nEnter the following digits for options:\n1: getData()\n2: analyze\n3: save\n4: transmit\n5: Exit\nInput: ";
+		std::cin >> choice;
+		system("cls");
+		switch (choice) {
+		case 1:
+			x.getData();
+			break;
+		case 2:
+			x.analyzeData();
+			break;
+		case 3:
+			x.storeData();
+			break;
+		case 4:
+			x.transmitData();
+			break;
+		case 5:
+			run = false;
+			break;
+		default:
+			std::cout << "Bad input!" << std::endl;
+			break;
+		}
+	}
+	std::cout << "Thank you for using this program.";
 }
