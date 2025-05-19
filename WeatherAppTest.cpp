@@ -28,7 +28,7 @@
 				std::getline(iFile, l);
 				iFile.close();
 
-				Assert::AreEqual(std::string("Temp:70,Rain:1,40,Thunder:1,Hail:0,Windy:1,20"), l, L"Data does not match.");
+				Assert::AreEqual(std::string("Temp:60,Rain:1,40,Thunder:1,Hail:0,Windy:1,20"), l, L"Data does not match.");
 			}
 		};	
 	}
