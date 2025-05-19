@@ -13,6 +13,10 @@
 		
 			TEST_METHOD(TestGetData)
 			{
+				std::ofstream inputFile("weather.data");
+				inputFile << "Temp:70,Rain:1,40,Thunder:1,Hail:0,Windy:1,20";
+				inputFile.close();
+
 				weatherStation t;
 				Assert::IsTrue(t.getData(), L"Error gathering data.");
 				Assert::IsTrue(t.storeData(), L"Error storing data.");
@@ -26,5 +30,5 @@
 
 				Assert::AreEqual(std::string("Temp:70,Rain:1,40,Thunder:1,Hail:0,Windy:1,20"), l, L"Data does not match.");
 			}
-		};
+		};	
 	}
